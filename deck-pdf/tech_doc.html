@@ -1,0 +1,76 @@
+<!doctype html><html><head><meta charset="utf-8"></head>
+<body style="font-family:Arial,sans-serif;color:#1F2E3C;font-size:11pt;line-height:1.45">
+<p><img src="https://raw.githubusercontent.com/BimRoss/brandlete-assets/main/deck-pdf/logo_light_trim.png" style="height:34px"></p>
+<h1 style="color:#0B87BC;font-size:24pt">Brandlete — Technical Overview</h1>
+<p style="color:#5C6B7A;font-size:10pt">Brandlete, Inc.&nbsp; ·&nbsp; What is in place today&nbsp; ·&nbsp; September 2026</p>
+<p>Brandlete is a cloud-based platform for youth and amateur sports organizations, built on established providers: Amazon Web Services, Cloudflare, OpenAI and Stripe. Protections for young athletes are built into how it works, and children under 13 are managed by their parents. This overview covers what is in place today.</p>
+
+<h2 style="color:#0B87BC">1. Platform overview</h2>
+<p>Brandlete is one platform that serves athletes, parents, coaches and club administrators. The interface adapts to each user: navigation, dashboards and tools change with their role, so an athlete, a parent, a coach and a club director each get a workspace built for what they do. Someone with more than one role, such as a coach who is also a parent, can switch between workspaces from a single sign-in.</p>
+<ul>
+<li><b>Development.</b> Athletes get development plans, goals and tasks, and coaches give feedback. Brandlete also calculates an Athlete Development Index (ADI) that rates each athlete on six dimensions: performance, physical, technical, psychological, academic and exposure. The ADI is calculated and kept up to date automatically every week, and is planned for release to coaches and athletes in a future update.</li>
+<li><b>Club operations.</b> Teams, calendars, attendance, messaging, forms, registrations and payments, tournaments and sponsorship. Club leaders get a dashboard with analytics, athlete retention insights and impact reports.</li>
+<li><b>Mobile.</b> Brandlete runs in any browser and can be added to a phone's home screen like an app, with push notifications for messages, schedule changes and reminders. There is no separate app-store app.</li>
+<li><b>Public pages.</b> Clubs can publish team pages, tournaments can be shared by link, and families can follow a team's schedule. Adult athletes can opt in to a public profile.</li>
+</ul>
+<p>Clubs, teams, leagues and tournaments are all set up within the same platform. Brandlete can serve a single team or a large multi-program club without being rebuilt, and each organization's information is kept separate from every other's.</p>
+
+<h2 style="color:#0B87BC">2. Infrastructure and core technology</h2>
+<p>Brandlete is hosted on Amazon Web Services (AWS) in the United States.</p>
+<ul>
+<li><b>Cloudflare</b> sits in front of the platform. All traffic passes through it encrypted, and Brandlete's servers accept no traffic from anywhere else.</li>
+<li><b>Database and file storage</b> are managed AWS services. Both are encrypted, and the database is backed up automatically every day.</li>
+<li><b>Sign-in</b> uses email and password, managed by Brandlete directly. Passwords are protected with industry-standard hashing, and sessions use signed, short-lived JSON Web Tokens (JWTs).</li>
+<li><b>Payments</b> go through Stripe. Card details never touch Brandlete, and each organization is paid directly into its own Stripe account.</li>
+<li><b>Communications</b> are email, in-app notifications and push notifications.</li>
+<li><b>Releases</b> use an AWS Application Load Balancer and a standard blue/green deployment: each new version goes live on a standby server first, so releases are smooth, low-risk and can be rolled back within minutes. Server capacity can be increased quickly as demand grows.</li>
+</ul>
+
+<h2 style="color:#0B87BC">3. AI and OpenAI</h2>
+<p>Brandlete's AI features run on OpenAI's API. Brandlete does not build or train its own AI models.</p>
+<p><b>Max</b> is Brandlete's AI assistant for coaches and club administrators. Coaches can type or simply speak, using built-in voice dictation. Max takes on routine admin: drafting development plans, goals, feedback, team and parent updates, schedules and tournaments. It also answers questions such as "who needs attention this week?" AI also supports athlete goal-setting (13+) and in-app help.</p>
+<p style="color:#0B6A96"><b>Nothing Max drafts is saved or sent until a coach reviews and approves it.</b></p>
+<h3>How AI interacts with platform data</h3>
+<ul>
+<li>Only the information needed for a task is sent. Athletes' names, contact details and dates of birth are left out.</li>
+<li>Max will not act on requests about under-13 athletes, and screens requests for children's names.</li>
+<li>AI usage is limited per person and monitored, and the team is alerted automatically if the AI service fails.</li>
+</ul>
+<p>Max's coverage continues to expand, with new capabilities added regularly.</p>
+
+<h2 style="color:#0B87BC">4. Youth privacy and security</h2>
+<p>The protections for minors are built into the platform itself, so they apply whether or not anyone remembers to switch them on. Brandlete's Privacy Policy and Terms of Use are published.</p>
+<ul>
+<li><b>Under 13: parent-managed, no login.</b> A child under 13 cannot sign up. A coach adds the child, and a parent must give recorded consent before the profile is activated. The child never has a password. Only a name and birth year are kept, and a profile no parent activates is deleted after 30 days.</li>
+<li><b>Parent visibility.</b> Parents link to their athlete and can see what their athlete sees, whatever the athlete's age. For under-13s, parents act on the child's behalf.</li>
+<li><b>Role-based permissions.</b> Athletes, parents, coaches and club staff each see only what their role requires. Every request is checked by the server.</li>
+<li><b>Public visibility.</b> Minors are never shown publicly. Adults appear publicly only if they opt in, and nothing on Brandlete appears in search engines.</li>
+<li><b>Communication safeguards.</b> Coach messages always go to parents as well as athletes. Direct messages are limited to coaches and athletes on the same team, and parents and club administrators can view those conversations. A coach can only message an under-13 when a parent can see the conversation. Athletes have their own privacy controls, and can turn off direct messages or block specific people. Anyone who can see a conversation can report a message or thread to the club, and the reported message is preserved even if it is later edited or deleted.</li>
+</ul>
+
+<h2 style="color:#0B87BC">5. Security and data protection</h2>
+<ul>
+<li><b>Access control.</b> Every action is checked against the user's permissions. New users confirm their email address with a single-use, time-limited code before they reach their dashboard. Sign-in is protected against password guessing.</li>
+<li><b>Data storage.</b> Data is encrypted both in storage and in transit, and system passwords and keys are kept out of the code.</li>
+<li><b>Retention and deletion.</b> Parents can review and delete their under-13 child's data. Organizations choose how long registration records are kept, and older records are removed automatically.</li>
+<li><b>Analytics.</b> Usage analytics are anonymous: no names, emails or children's details.</li>
+<li><b>Monitoring and backups.</b> Servers are health-checked continuously, and the database is backed up daily, with copies kept for seven days.</li>
+<li><b>Practices.</b> Every change is tested automatically, including checks that enforce the privacy rules above. Internal security reviews have been carried out, and their critical findings fixed.</li>
+</ul>
+<p style="color:#0B6A96"><b>Next on the security roadmap:</b> two-factor sign-in, centralized monitoring and off-site backup copies.</p>
+
+<h2 style="color:#0B87BC">Technology and vendors</h2>
+<table border="1" cellspacing="0" cellpadding="7" style="border-collapse:collapse;width:100%">
+<tr style="background:#EAF4FA"><td style="color:#0B87BC"><b>Technology / vendor</b></td><td style="color:#0B87BC"><b>What Brandlete uses it for</b></td></tr>
+<tr><td><b>Amazon Web Services (AWS)</b></td><td>Hosting, database, file storage and email delivery</td></tr>
+<tr><td><b>Cloudflare</b></td><td>Secure front door for all traffic; bot protection on public forms</td></tr>
+<tr><td><b>OpenAI</b></td><td>Powering Max and Brandlete's other AI features</td></tr>
+<tr><td><b>Stripe</b></td><td>Registration payments, paid directly to each organization</td></tr>
+<tr><td><b>PostHog</b></td><td>Anonymous product usage analytics</td></tr>
+<tr><td><b>GitHub</b></td><td>Source code and automated testing</td></tr>
+<tr><td><b>InsightIQ</b></td><td>Instagram statistics for adult athletes who connect their account</td></tr>
+<tr><td><b>Third-party sports apps</b></td><td>Importing an organization's existing data from other platforms, as required</td></tr>
+<tr><td><b>Mapping and weather services</b></td><td>Maps, address lookup and weather</td></tr>
+</table>
+<p style="color:#5C6B7A;font-size:9pt">Brandlete, Inc. &nbsp;·&nbsp; Technical Overview &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; brandlete.com</p>
+</body></html>
